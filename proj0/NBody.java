@@ -52,11 +52,11 @@ public class NBody {
             }
 
             for (int i = 0; i < planets.length; i++) {
-                planets[i].update(time, xForces[i], yForces[i]);
+                planets[i].update(dt, xForces[i], yForces[i]);
             }
 
             StdDraw.picture(0, 0, "images/starfield.jpg");
-            for (Planet planet: planets){
+            for (Planet planet : planets) {
                 planet.draw();
             }
             StdDraw.show();
@@ -68,10 +68,10 @@ public class NBody {
         // Print out the final state of the universe
         StdOut.printf("%d\n", planets.length);
         StdOut.printf("%.2e\n", radius);
-        for (Planet planet : planets) {
+        for (int i = 0; i < planets.length; i++) {
             StdOut.printf("%11.4e %11.4e %11.4e %11.4e %11.4e %12s\n",
-                    planet.xxPos, planet.yyPos, planet.xxVel,
-                    planet.yyVel, planet.mass, planet.imgFileName);
+                    planets[i].xxPos, planets[i].yyPos, planets[i].xxVel,
+                    planets[i].yyVel, planets[i].mass, planets[i].imgFileName);
         }
     }
 }
