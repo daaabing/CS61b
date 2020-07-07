@@ -6,7 +6,7 @@ public class Planet {
     public double mass; // Its mass
     public String imgFileName; // The name of the file that corresponds to the image that depicts the body (for example, jupiter.gif)
 
-    public static final double gravitation = 6.67e-11;
+    private static final double gravitation = 6.67e-11;
 
     public Planet(double xP, double yP, double xV,
                   double yV, double m, String img){
