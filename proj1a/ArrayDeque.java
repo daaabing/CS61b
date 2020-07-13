@@ -1,3 +1,4 @@
+
 public class ArrayDeque<T> {
 
     private T[] items;
@@ -15,29 +16,34 @@ public class ArrayDeque<T> {
     /** Computes the index immediately before a given index */
     private int minusOne(int index) {
         if (index == 0) {
-            return items.length - 1; //before 0 is the last item
+            return (items.length - 1); //before 0 is the last item
+        } else {
+            return index - 1;
         }
-        return index - 1;
     }
 
     /** Computes the index immediately after a given index */
     private int plusOne(int index) {
         if (index == (items.length - 1)) {
             return 0; // after the last item is 0
+        } else {
+            return index + 1;
         }
-        return index + 1;
     }
 
-    public void resizing(int s){
+    private boolean isFull() {
+        return size == items.length;
+    }
+
+    private void resizing(int s) {
         T[] a = (T[]) new Object[s];
         System.arraycopy(items, 0, a, 0, size);
         items = a;
-        size = size + 1;
     }
 
     public void addFirst(T item) {
-        if (size == items.length) {
-            resizing(size + 1);
+        if (isFull()) {
+            resizing(size * 2);
         }
         if (items[nextFirst] == null) {
             items[nextFirst] = item;
@@ -48,8 +54,8 @@ public class ArrayDeque<T> {
 
     /** Inserts X into the back of the list. */
     public void addLast(T item) {
-        if (size == items.length) {
-            resizing(size + 1);
+        if (isFull()) {
+            resizing(size * 2);
         }
         if (items[nextLast] == null) {
             items[nextLast] = item;
@@ -58,14 +64,8 @@ public class ArrayDeque<T> {
         }
     }
 
-    public boolean isEmpty(){
+    public boolean isEmpty() {
         return (size == 0);
-    }
-
-    /** Returns the item from the back of the list. */
-
-    public T getLast() {
-        return items[nextLast - 1];
     }
 
     /** Gets the ith item in the list (0 is the front). */
@@ -78,13 +78,11 @@ public class ArrayDeque<T> {
         return size;
     }
 
-    public void printDeque(){
-        int p = nextFirst - 1;
-        while (p != nextLast+1){
-            System.out.print(items[p]);
-            System.out.print(' ');
-            p -= 1;
+    public void printDeque() {
+        for (int p = plusOne(nextFirst); p != nextLast; p = plusOne(p)) {
+            System.out.print(items[p] + " ");
         }
+        System.out.println();
     }
 
     public T removeFirst() {
