@@ -1,3 +1,4 @@
+
 public class LinkedListDeque<T> {
     /** Invariant:
      * 1. sentinel reference always points to a sentinel node
@@ -59,34 +60,36 @@ public class LinkedListDeque<T> {
         }
     }
 
-    //Removes and returns the item at the front of the deque. If no such item exists, returns null.
+    //Removes and returns the item at the front of the deque.
+    // If no such item exists, returns null.
     public T removeFirst() {
-        if (size != 0){
+        if (size != 0) {
             T p = sentinel.next.item;
             sentinel.next = sentinel.next.next;
             sentinel.next.prev = sentinel;
             size -= 1;
             return p;
-        } else{
+         } else {
             return sentinel.next.item;
         }
     }
 
-    //Removes and returns the item at the back of the deque. If no such item exists, returns null.
+    //Removes and returns the item at the back of the deque.
+    // If no such item exists, returns null.
     public T removeLast() {
-        if (size != 0){
+        if (size != 0) {
             T p = sentinel.prev.item;
             sentinel.prev = sentinel.prev.prev;
             sentinel.prev.next = sentinel;
             size -= 1;
             return p;
-        } else{
+        } else {
             return sentinel.prev.item;
         }
     }
 
     public T get(int index) {
-        if (index > size - 1){
+        if (index > size - 1) {
             return null;
         }
         IntNode p = sentinel.next;
@@ -114,3 +117,4 @@ public class LinkedListDeque<T> {
         return getRecursiveHelper(index - 1, p.next);
     }
 }
+
