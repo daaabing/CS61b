@@ -35,15 +35,29 @@ public class ArrayDeque<T> {
         return size == items.length;
     }
 
-    private void resizing(int s) {
-        T[] a = (T[]) new Object[s];
-        System.arraycopy(items, 0, a, 0, size);
-        items = a;
+    private void resize(int capacity) {
+
+        T[] newArray = (T[]) new Object[capacity];
+
+        int curr = plusOne(nextFirst);
+
+        for (int i = 0; i < size; i++) {
+
+            newArray[i] = items[curr];
+
+            curr = plusOne(curr);
+        }
+
+        items = newArray;
+
+        nextFirst = capacity - 1;
+
+        nextLast = size;
     }
 
     public void addFirst(T item) {
         if (isFull()) {
-            resizing(size * 2);
+            resize(size * 2);
         }
         if (items[nextFirst] == null) {
             items[nextFirst] = item;
@@ -55,7 +69,7 @@ public class ArrayDeque<T> {
     /** Inserts X into the back of the list. */
     public void addLast(T item) {
         if (isFull()) {
-            resizing(size * 2);
+            resize(size * 2);
         }
         if (items[nextLast] == null) {
             items[nextLast] = item;
@@ -70,7 +84,11 @@ public class ArrayDeque<T> {
 
     /** Gets the ith item in the list (0 is the front). */
     public T get(int i) {
-        return items[i];
+        if (i > size){
+            return null;
+        }
+        int index = (plusOne(nextFirst) + i) % items.length;
+        return items[index];
     }
 
     /** Returns the number of items in the list. */
@@ -86,7 +104,13 @@ public class ArrayDeque<T> {
     }
 
     public T removeFirst() {
-        T item = get(nextFirst + 1);
+        if (size == 0){
+            return null;
+        }
+        int first = plusOne(nextFirst);
+        T item = get(first);
+        items[first] = null;
+        nextFirst = first;
         size = size - 1;
         return item;
     }
@@ -94,8 +118,16 @@ public class ArrayDeque<T> {
     /** Deletes item from back of the list and
      * returns deleted item. */
     public T removeLast() {
-        T item = get(nextLast - 1);
+        if (size == 0){
+            return null;
+        }
+
+        int last = minusOne(nextLast);
+        T item = get(last);
+        items[last] = null;
+        nextLast = last;
         size = size - 1;
+
         return item;
     }
 }
